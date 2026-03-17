@@ -15,7 +15,8 @@ open class WebConfig(
                 "https://duoclone.jokerhut.com",
                 "https://www.duoclone.jokerhut.com",
                 "https://exquisite-lily-dbf9cd.netlify.app",
-                "https://judolang-main.vercel.app"
+                "https://judolang-main.vercel.app",
+		"https://app.judokapro.com.br"
             )
             .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
             .allowedHeaders("*")
