@@ -1,22 +1,34 @@
 package com.testingpractice.duoclonebackend.commons.configuration
 
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.boot.web.servlet.FilterRegistrationBean
+import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.web.servlet.config.annotation.CorsRegistry
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
+import org.springframework.core.Ordered
+import org.springframework.web.cors.CorsConfiguration
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource
+import org.springframework.web.filter.CorsFilter
 
 @Configuration
 open class WebConfig(
     @Value("\${FRONTEND_ORIGINS}") private val frontendOrigins: String
-) : WebMvcConfigurer {
+) {
 
-    override fun addCorsMappings(registry: CorsRegistry) {
-        val origins = frontendOrigins.split(",").map { it.trim().removeSuffix("/") }
+    @Bean
+    open fun customCorsFilter(): FilterRegistrationBean<CorsFilter> {
+        val configuration = CorsConfiguration()
+        val origins = frontendOrigins.split(",").map { it.trim().removeSuffix("/") }.toTypedArray()
         
-        registry.addMapping("/**")
-            .allowedOriginPatterns("https://*.judokapro.com.br", "https://judokapro.com.br", "http://localhost:*", *origins.toTypedArray())
-            .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
-            .allowedHeaders("*")
-            .allowCredentials(true)
+        configuration.allowedOriginPatterns = listOf("https://*.judokapro.com.br", "https://judokapro.com.br", "http://localhost:*", *origins)
+        configuration.allowedMethods = listOf("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
+        configuration.allowedHeaders = listOf("*")
+        configuration.allowCredentials = true
+
+        val source = UrlBasedCorsConfigurationSource()
+        source.registerCorsConfiguration("/**", configuration)
+        
+        val bean = FilterRegistrationBean(CorsFilter(source))
+        bean.order = Ordered.HIGHEST_PRECEDENCE
+        return bean
     }
 }

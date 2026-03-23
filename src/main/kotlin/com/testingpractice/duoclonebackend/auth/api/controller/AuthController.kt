@@ -27,10 +27,14 @@ class AuthController(
     fun loginWithGoogle(
         @RequestBody dto: TokenDto,
         response: HttpServletResponse
-    ): ResponseEntity<UserResponse> {
-        val userDto =
-            googleService.loginOrRegisterWithCode(dto.code, response)
-        return ResponseEntity.ok(userDto)
+    ): ResponseEntity<*> {
+        return try {
+            val userDto = googleService.loginOrRegisterWithCode(dto.code, response)
+            ResponseEntity.ok(userDto)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            ResponseEntity.status(500).body(mapOf("error" to "Login failed: ${e.message}", "cause" to e.cause?.message))
+        }
     }
 
     @GetMapping(pathConstants.AUTH_ME)
