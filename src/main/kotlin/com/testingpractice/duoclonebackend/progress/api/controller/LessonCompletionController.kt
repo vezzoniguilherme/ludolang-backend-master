@@ -20,11 +20,20 @@ class LessonCompletionController(
     fun completeLesson(
         @RequestBody lessonCompleteRequest: LessonCompleteRequest,
         @AuthenticationPrincipal(expression = "id") userId: Int
-    ): LessonCompleteResponse {
-        return lessonCompletionService.getCompletedLesson(
-            lessonCompleteRequest.lessonId,
-            userId,
-            lessonCompleteRequest.courseId
-        )
+    ): org.springframework.http.ResponseEntity<Any> {
+        return try {
+            val response = lessonCompletionService.getCompletedLesson(
+                lessonCompleteRequest.lessonId,
+                userId,
+                lessonCompleteRequest.courseId
+            )
+            org.springframework.http.ResponseEntity.ok(response)
+        } catch (e: com.testingpractice.duoclonebackend.commons.exception.ApiException) {
+            org.springframework.http.ResponseEntity.status(org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(mapOf("error" to "ApiException", "message" to e.message, "code" to e.code.name))
+        } catch (e: Exception) {
+            org.springframework.http.ResponseEntity.status(org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(mapOf("error" to "Exception", "message" to e.message))
+        }
     }
 }
