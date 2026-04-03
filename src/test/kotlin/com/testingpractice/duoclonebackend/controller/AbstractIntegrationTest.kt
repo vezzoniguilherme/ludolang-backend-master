@@ -80,15 +80,15 @@ abstract class AbstractIntegrationTest {
   companion object {
 
     init {
-      Containers.MYSQL.isRunning // force startup
+      Containers.POSTGRES.isRunning // force startup
     }
 
     @JvmStatic
     @DynamicPropertySource
-    fun mysqlProps(r: DynamicPropertyRegistry) {
-      r.add("spring.datasource.url") { Containers.MYSQL.jdbcUrl }
-      r.add("spring.datasource.username") { Containers.MYSQL.username }
-      r.add("spring.datasource.password") { Containers.MYSQL.password }
+    fun postgresProps(r: DynamicPropertyRegistry) {
+      r.add("spring.datasource.url") { Containers.POSTGRES.jdbcUrl }
+      r.add("spring.datasource.username") { Containers.POSTGRES.username }
+      r.add("spring.datasource.password") { Containers.POSTGRES.password }
       r.add("spring.jpa.hibernate.ddl-auto") { "create-drop" }
     }
 
@@ -148,8 +148,6 @@ abstract class AbstractIntegrationTest {
 
     @BeforeEach
     fun resetDb() {
-        jdbc.execute("SET FOREIGN_KEY_CHECKS = 0")
-
         listOf(
             "exercise_attempt_option",
             "exercise_options",
@@ -168,10 +166,8 @@ abstract class AbstractIntegrationTest {
             "course",
             "users"
         ).forEach { table ->
-            jdbc.execute("TRUNCATE TABLE $table")
+            jdbc.execute("TRUNCATE TABLE $table CASCADE")
         }
-
-        jdbc.execute("SET FOREIGN_KEY_CHECKS = 1")
 
         initializeCoursesSectionsAndLessons()
     }
@@ -302,8 +298,7 @@ abstract class AbstractIntegrationTest {
                             userId,
                             courseId,
                             false,
-                            currentLessonId,
-                            FIXED_TIMESTAMP_1
+                            currentLessonId
                     )
             )
 

@@ -1,13 +1,13 @@
-package support;
+package support
 
-import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.containers.PostgreSQLContainer
 
 object Containers {
 
-val MYSQL: MySQLContainer<*> =
-MySQLContainer("mysql:8.0.39")
+    val POSTGRES: PostgreSQLContainer<*> =
+        PostgreSQLContainer("postgres:16")
 
-init {
-    MYSQL.start()
-}
+    init {
+        POSTGRES.start()
+    }
 }

@@ -18,6 +18,7 @@ import com.testingpractice.duoclonebackend.quest.domain.entity.embeddable.UserDa
 import com.testingpractice.duoclonebackend.quest.domain.entity.embeddable.UserMonthlyChallengeId
 import com.testingpractice.duoclonebackend.user.domain.entity.User
 import java.sql.Timestamp
+import java.time.Instant
 import java.time.LocalDate
 
 object TestUtils {
@@ -147,7 +148,7 @@ fun makeUserCourseProgress(
         courseId: Int,
         isComplete: Boolean,
         currentLessonId: Int?,
-        updatedAt: Timestamp
+        updatedAt: Instant? = null
 ) = UserCourseProgress(
         id = null,
         userId = userId,
@@ -219,6 +220,6 @@ fun makeLessonCompletion(
         id = LessonCompletionId(userId, lessonId),
         courseId = courseId,
         score = score,
-        completedAt = Timestamp(System.currentTimeMillis())
+        completedAt = Instant.now()
 )
         }
