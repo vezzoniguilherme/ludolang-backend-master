@@ -97,8 +97,7 @@ class LessonCompletionControllerIT : AbstractIntegrationTest() {
                 userId,
                 course1.id!!,
                 false,
-                l5.id!!,
-                FIXED_TIMESTAMP_2
+                l5.id!!
             )
         )
 
