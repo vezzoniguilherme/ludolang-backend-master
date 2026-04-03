@@ -18,6 +18,7 @@ import com.testingpractice.duoclonebackend.quest.domain.entity.embeddable.UserDa
 import com.testingpractice.duoclonebackend.quest.domain.entity.embeddable.UserMonthlyChallengeId
 import com.testingpractice.duoclonebackend.user.domain.entity.User
 import java.sql.Timestamp
+import java.time.Instant
 import java.time.LocalDate
 
 object TestUtils {
