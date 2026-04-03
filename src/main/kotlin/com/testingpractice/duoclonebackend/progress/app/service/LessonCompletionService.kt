@@ -12,7 +12,6 @@ import com.testingpractice.duoclonebackend.user.app.service.UserService
 import com.testingpractice.duoclonebackend.user.infra.repository.UserRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.sql.Timestamp
 import java.time.Instant
 
 @Service
@@ -84,7 +83,7 @@ open class LessonCompletionService(
             lessonId,
             courseId,
             scoreForLesson,
-            Timestamp.from(Instant.now())
+            Instant.now()
         )
 
         userRepository.save(user)
