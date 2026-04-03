@@ -8,7 +8,7 @@ import java.sql.Timestamp
 class UserCourseProgress(
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int? = null,
 
     @Column(name = "user_id")

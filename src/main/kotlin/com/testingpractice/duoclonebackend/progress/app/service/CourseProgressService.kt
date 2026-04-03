@@ -41,9 +41,19 @@ open class CourseProgressService(
         if (user.currentCourseId != courseId)
             throw ApiException(ErrorCode.COURSE_MISMATCH)
 
-        val userCourseProgress =
+        var userCourseProgress =
             userCourseProgressRepository.findByUserIdAndCourseId(userId, courseId)
-                ?: throw ApiException(ErrorCode.USER_NOT_FOUND)
+
+        if (userCourseProgress == null) {
+            val newProgress = com.testingpractice.duoclonebackend.progress.domain.entity.UserCourseProgress()
+            newProgress.userId = userId
+            newProgress.courseId = courseId
+            newProgress.isComplete = false
+            newProgress.currentLessonId = currentLesson.id
+            newProgress.updatedAt = Timestamp.from(Instant.now())
+            userCourseProgressRepository.save(newProgress)
+            userCourseProgress = newProgress
+        }
 
         val lessonsPassed = mutableListOf<LessonDto>()
 
