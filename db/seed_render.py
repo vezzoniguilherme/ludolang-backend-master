@@ -1,7 +1,11 @@
 import psycopg2
 
-DB_URL = "postgresql://ludolang_db_user:b3F1eW5gLhBwN55NZ7fL2M8Lp7S@dpg-d77t1af5r7bs739jgm7g-a.oregon-postgres.render.com/ludolang_db"
+import os
 
+DB_URL = os.environ.get("DB_URL")
+
+if not DB_URL:
+    raise ValueError("DB_URL environment variable is not set!")
 SQL = """
 INSERT INTO course (id, image_src, title) VALUES
   (1, 'https://d35aaqx5ub95lt.cloudfront.net/images/borderlessFlags/7488bd7cd28b768ec2469847a5bc831e.svg', 'FRENCH'),

@@ -1,8 +1,12 @@
 import pg from 'pg';
 const { Client } = pg;
 
-const DB_URL = "postgresql://ludolang_db_user:b3F1eW5gLhBwN55NZ7fL2MHIADOozIQj@dpg-d77t1af5r7bs739jgm7g-a.oregon-postgres.render.com/ludolang_db";
+const DB_URL = process.env.DB_URL;
 
+if (!DB_URL) {
+  console.error("DB_URL environment variable is not set!");
+  process.exit(1);
+}
 const SQL = `
 INSERT INTO course (id, image_src, title) VALUES
   (1, 'https://d35aaqx5ub95lt.cloudfront.net/images/borderlessFlags/7488bd7cd28b768ec2469847a5bc831e.svg', 'FRENCH'),
