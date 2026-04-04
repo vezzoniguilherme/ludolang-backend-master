@@ -5,6 +5,7 @@ services:
     dockerfilePath: ./Dockerfile
     plan: free
     healthCheckPath: /actuator/health
+    numInstances: 1
     envVars:
       - key: GOOGLE_CLIENT_ID
         sync: false

@@ -2,6 +2,9 @@ spring:
   application:
     name: duoclone-backend
 
+  main:
+    lazy-initialization: true
+
   datasource:
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
@@ -14,7 +17,6 @@ spring:
 
   error:
     include-binding-errors: always
-
 cors:
   origins: ${FRONTEND_ORIGINS}
 
