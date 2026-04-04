@@ -12,4 +12,6 @@ class GoogleUserInfo {
 
     @JsonProperty("family_name")
     var familyName: String? = null
+
+    var picture: String? = null
 }

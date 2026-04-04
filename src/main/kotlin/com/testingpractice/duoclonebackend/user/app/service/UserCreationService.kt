@@ -32,7 +32,7 @@ open class UserCreationService(
             lastName = googleUser.familyName!!,
             username = UserCreationUtils.generateUsername(googleUser.name),
             currentCourseId = null,
-            pfpSrc = UserCreationUtils.getRandomProfilePic(),
+            pfpSrc = googleUser.picture ?: UserCreationUtils.getRandomProfilePic(),
             points = 0,
             streakLength = 0,
             createdAt = Timestamp.from(Instant.now())
