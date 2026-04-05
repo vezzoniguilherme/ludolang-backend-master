@@ -22,7 +22,7 @@ cors:
   origins: ${FRONTEND_ORIGINS}
 
 server:
-  port: ${PORT:8080}
+  port: 8080
   error:
     include-binding-errors: always
 
